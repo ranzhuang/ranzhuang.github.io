@@ -76,7 +76,7 @@ Maven所创建的Web工程目录结构图展示:
 
 	<resources>
       <resource>
-        <directory>src/main/resources</directory>
+        <directory>src/main/java</directory>
         <includes>
           <include>**/*.xml</include>
         </includes>
