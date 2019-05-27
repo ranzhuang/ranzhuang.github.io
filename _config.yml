@@ -5,7 +5,7 @@
 # Site
 title: 爱听音乐的狗
 subtitle: 有趣，古怪，奇异
-description: 行走在进阶的道路上
+description: 士不可以不弘毅，任重而道远
 keywords:
 author: 汪汪神
 language: zh-CN
@@ -76,7 +76,7 @@ disqus_shortname:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: vno
+theme: hexo-theme-new-vno
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
