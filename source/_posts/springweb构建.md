@@ -1,6 +1,6 @@
 ---
-layout: hexo
 title: 构建基本的 Spring Web 应用程序示例
+date: 2018-10-15
 tags: Java
 ---
 

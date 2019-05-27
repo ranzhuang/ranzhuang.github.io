@@ -1,5 +1,6 @@
 ---
 title: iOS简单实用的手写签名实现
+date: 2018-11-26
 tags: Object-C
 ---
 
@@ -140,11 +141,11 @@ tags: Object-C
                 self.minY = currentPoint.y;
             }
         }
-    
+
     }
 
 实现.h提供的清除手势与确认手势方法
-  
+
     #pragma mark - 清理
     - (void)clear {
         self.signaturePath = [UIBezierPath bezierPath];
@@ -196,7 +197,7 @@ tags: Object-C
             }
             return nil;
         }
-    
+
     }
 
 ### 图片压缩
@@ -241,7 +242,7 @@ tags: Object-C
                 break;
             }
         }
-    
+
         //当对质量进行压缩并没达到我们需要的大小时我们可以对图片大小进行压缩
         //压缩图片尺寸会达到我们理想的大小，但会让图片变得相对模糊
         //判断质量压缩后的大小是否小于maxSize
@@ -269,7 +270,3 @@ tags: Object-C
 
 > 示例项目
 [手写签名Demo](https://coding.net/u/Ranzhuang/p/HJSignatureDemo/git)
-
-
-
-

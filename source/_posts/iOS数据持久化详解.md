@@ -1,5 +1,6 @@
 ---
 title: iOS数据持久化详解
+date: 2018-11-15
 tags: Object-C
 ---
 
@@ -41,7 +42,7 @@ tags: Object-C
 
 	/**
  	plist获取数据
- 
+
  	@param sender sender description
  	*/
 	- (IBAction)plistGetInfoButtonDidClicked:(UIButton *)sender {
@@ -96,7 +97,7 @@ tags: Object-C
 	@end
 
 	NS_ASSUME_NONNULL_END
-	
+
 .m文件
 
 	#import "NSUserDefaults+Category.h"
@@ -167,13 +168,13 @@ tags: Object-C
                                           error:&error];
 	    if (error)
 	        return NO;
-    
+
 	    [data writeToFile:[self getPathWithPrefix:prefix] atomically:YES];
 	    return YES;
 	}
 
 	+ (id)unarchiveClass:(Class)class prefix:(NSString *)prefix {
-    
+
 	    NSError *error;
 	    NSData *data = [[NSData alloc] initWithContentsOfFile:[self getPathWithPrefix:prefix]];
 	    //会调用对象的initWithCoder方法
@@ -191,7 +192,7 @@ tags: Object-C
 	 @return return value description
 	 */
 	+ (NSString *)getPathWithPrefix:(NSString *)prefix {
-    
+
 	    NSString *documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
 	    NSString *filePathFolder = [documentPath stringsByAppendingPaths:@[@"archiveTemp"]].firstObject;
 	    if (![[NSFileManager defaultManager] fileExistsAtPath:filePathFolder]) {
@@ -209,7 +210,7 @@ HJPersonModel类对应的数据归档/解归档操作
 	#pragma mark - 归档解归档
 	/**
 	 归档数据
- 
+
 	 @param sender sender description
 	 */
 	- (IBAction)archiveButtonDidClicked:(UIButton *)sender {
@@ -224,7 +225,7 @@ HJPersonModel类对应的数据归档/解归档操作
 	}
 	/**
 	 解归档数据
- 
+
 	 @param sender sender description
  	*/
 	- (IBAction)unarchiveButtonDidClicked:(UIButton *)sender {
@@ -268,7 +269,7 @@ tmp: 用于存放临时文件，在程序未运行时可能会删除该文件夹
 
 	/**
 	 获取沙盒路径下的音乐
- 
+
 	 @param musicName 音乐名称
 	 @return 路径
 	 */
@@ -282,11 +283,11 @@ tmp: 用于存放临时文件，在程序未运行时可能会删除该文件夹
 
 	/**
 	 获取沙盒路径下的音乐
- 
+
 	 @return return value description
 	 */
 	+ (NSString *)getPathWithMusicName:(NSString *)name {
-    
+
 	    NSString *documentPath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject];
 	    NSString *filePathFolder = [documentPath stringsByAppendingPaths:@[@"music"]].firstObject;
 	    if (![[NSFileManager defaultManager] fileExistsAtPath:filePathFolder]) {
@@ -391,7 +392,7 @@ NSManagedObjectContext：托管对象上下文，在上下文中包含多个托�
 	@end
 
 	NS_ASSUME_NONNULL_END
-	
+
 .m文件为方法的实现
 
 	#import "HJCoreDataManager.h"
@@ -510,7 +511,7 @@ NSManagedObjectContext：托管对象上下文，在上下文中包含多个托�
 
 	/**
 	更新数据
-	
+
 	@param managedObject pojo对象
 	@return bool
 	*/
@@ -531,7 +532,7 @@ NSManagedObjectContext：托管对象上下文，在上下文中包含多个托�
                   withAttribute:(NSString * _Nullable)attribute
                       sortingBy:(NSString * _Nullable)sortArribute
                     isAscending:(BOOL)ascending;
-                    
+
 .m文件
 
 	#pragma mark - 获取数据模型
@@ -597,7 +598,7 @@ NSManagedObjectContext：托管对象上下文，在上下文中包含多个托�
 	    } else {
 	        fetchRequest.sortDescriptors = @[];
 	    }
-    
+
 	    if (!HJStrIsEmpty(searchString) && !HJStrIsEmpty(attribute)) {
 	        //某个属性的值包含某个字符串
 	        //%K 某个属性的值
@@ -687,7 +688,7 @@ NSManagedObjectContext：托管对象上下文，在上下文中包含多个托�
  	           NSLog(@"%@---%@---%lld", model.userName,model.carName,model.userID);
  	       }
  	   }
-    
+
 	}
 
 6 SQLite3
@@ -739,7 +740,7 @@ SQLite是轻量级的数据库，占用资源很少，最初是用于嵌入式�
 
 	/**
 	 增删改操作
- 
+
 	 @param sql sql语句
 	 @return BOOL
 	 */
@@ -911,7 +912,7 @@ SQLite是轻量级的数据库，占用资源很少，最初是用于嵌入式�
 	}
 	/**
 	 删除数据
- 
+
 	 @param sender sender description
 	 */
 	- (IBAction)sqlDeleteInfoButtonDidClicked:(UIButton *)sender {
@@ -920,7 +921,7 @@ SQLite是轻量级的数据库，占用资源很少，最初是用于嵌入式�
 	}
 	/**
 	 修改数据
- 
+
  	@param sender sender description
 	 */
 	- (IBAction)sqlUpdateInfoButtonDidClicked:(UIButton *)sender {
@@ -929,7 +930,7 @@ SQLite是轻量级的数据库，占用资源很少，最初是用于嵌入式�
 	}
 	/**
 	 查询数据
- 
+
 	 @param sender sender description
 	 */
 	- (IBAction)sqlSelectInfoButtonDidClicked:(UIButton *)sender {
@@ -1006,7 +1007,7 @@ FMDB的导入可以直接使用CocoaPods，导入后需要对其进行封装以�
 
 	/**
 	 执行查询数据
- 
+
 	 @param sql sql语句
 	 */
 	+ (NSArray *)executeQueryWithSql:(NSString *)sql;
@@ -1023,7 +1024,7 @@ FMDB的导入可以直接使用CocoaPods，导入后需要对其进行封装以�
 	@end
 
 	NS_ASSUME_NONNULL_END
-	
+
 .m提供方法的实现
 
 	#import "HJFMDBManager.h"
@@ -1158,7 +1159,7 @@ FMDB的导入可以直接使用CocoaPods，导入后需要对其进行封装以�
 	}
 	/**
 	 删除记录
- 
+
 	 @param sender sender description
 	 */
 	- (IBAction)fmdbDeleteButtonDidClicked:(UIButton *)sender {
@@ -1171,7 +1172,7 @@ FMDB的导入可以直接使用CocoaPods，导入后需要对其进行封装以�
 	}
 	/**
 	 修改记录
- 
+
 	 @param sender sender description
 	 */
 	- (IBAction)fmdbUpdateButtonDidClicked:(UIButton *)sender {
@@ -1184,7 +1185,7 @@ FMDB的导入可以直接使用CocoaPods，导入后需要对其进行封装以�
 	}
 	/**
 	 查询记录
- 
+
  	@param sender sender description
  	*/
 	- (IBAction)fmdbSelectButtonDidClicked:(UIButton *)sender {
@@ -1267,7 +1268,7 @@ Realm中创建自定义的数据模型需要继承自RLMObject，所以可以创
 
 	NS_ASSUME_NONNULL_END
 
-.m文件	
+.m文件
 
 	#import "HJRealmBaseModel.h"
 
@@ -1381,7 +1382,7 @@ Realm数据库的操作都应该在事物当中进行
 	#pragma mark - Realm数据操作
 	/**
 	 增加记录
- 
+
 	 @param sender sender description
 	 */
 	- (IBAction)realmInsertButtonDidClicked:(UIButton *)sender {
@@ -1398,7 +1399,7 @@ Realm数据库的操作都应该在事物当中进行
 	}
 	/**
 	 删除记录
- 
+
 	 @param sender sender description
 	 */
 	- (IBAction)realmDeleteButtonDidClicked:(UIButton *)sender {
@@ -1407,11 +1408,11 @@ Realm数据库的操作都应该在事物当中进行
 	        NSLog(@"%@",results);
 	        [[RLMRealm defaultRealm] deleteObjects:results];
 	    }];
-    
+
 	}
 	/**
 	 修改记录
- 
+
 	 @param sender sender description
  	*/
 	- (IBAction)realmUpdateButtonDidClicked:(UIButton *)sender {
@@ -1424,7 +1425,7 @@ Realm数据库的操作都应该在事物当中进行
 	}
 	/**
 	 查询记录
- 
+
 	 @param sender sender description
 	 */
 	- (IBAction)realmSelectButtonDidClicked:(UIButton *)sender {

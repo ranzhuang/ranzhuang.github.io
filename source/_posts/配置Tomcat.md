@@ -1,5 +1,6 @@
 ---
 title: Mac系统下安装与配置Tomcat
+date: 2018-07-06
 tags: Java
 ---
 
@@ -17,7 +18,7 @@ tags: Java
 
 3、将解压出的文件夹移动到资源库文件夹下
 
-显示隐藏文件夹快捷键：shift + command + . 
+显示隐藏文件夹快捷键：shift + command + .
 
 ![图3](配置Tomcat/3.png)
 
@@ -54,17 +55,17 @@ tags: Java
 ![图6](配置Tomcat/6.png)
 
 >  bin文件夹：用于存放Tomcat命令
-> 
+>
 >  conf文件夹：用于存放Tomcat众多配置，需要关注server.xml文件与tomcat-users.xml文件
-> 
+>
 >  lib文件夹：用于存放支撑Tomcat运行的jar包
-> 
+>
 >  logs文件夹：保存运行时的日志
-> 
+>
 >  temp文件夹：临时文件夹
-> 
+>
 >  webapps文件夹：web应用目录
-> 
+>
 >  work文件夹：Tomcat的运行目录
 
 2、修改端口号
@@ -84,6 +85,3 @@ tags: Java
 保存修改之后需要启动Tomcat，启动前先关闭Tomcat，浏览器输入"http://localhost:8888"到Tomcat主页，点击右侧"Manager App"，输入设置的账号和密码 "tomcat"便登录
 
 ![图9](配置Tomcat/9.png)
-
-
-

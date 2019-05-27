@@ -1,5 +1,6 @@
 ---
 title: Maven创建Web工程以及SSM框架目录结构的搭建
+date: 2018-10-17
 tags: Java
 ---
 
@@ -82,12 +83,3 @@ Maven所创建的Web工程目录结构图展示:
         </includes>
       </resource>
     </resources>
-
-
-
-
-
-
-
-
-
