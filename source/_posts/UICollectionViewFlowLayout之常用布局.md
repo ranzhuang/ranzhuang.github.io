@@ -181,7 +181,7 @@ tags: Swift
 
 1.4 流式布局效果图：
 
-![流式布局.gif](https://upload-images.jianshu.io/upload_images/1990028-2e8a93142153b254.gif?imageMogr2/auto-orient/strip)
+![流式布局.gif](UICollectionViewFlowLayout之常用布局/1.gif)
 
 2、线性布局
 
@@ -393,7 +393,7 @@ tags: Swift
 
 2.4 线性布局效果图：
 
-![线性布局.gif](https://upload-images.jianshu.io/upload_images/1990028-ca11d722684a34ab.gif?imageMogr2/auto-orient/strip)
+![线性布局.gif](UICollectionViewFlowLayout之常用布局/2.gif)
 
 
 3、圆形布局
@@ -556,7 +556,7 @@ tags: Swift
 
 3.5 圆形布局效果图:
 
-![圆形布局.gif](https://upload-images.jianshu.io/upload_images/1990028-70c0fff16c8e51bd.gif?imageMogr2/auto-orient/strip)
+![圆形布局.gif](UICollectionViewFlowLayout之常用布局/3.gif)
 
 4、卡片布局
 
@@ -617,6 +617,6 @@ tags: Swift
 
 4.2 卡片布局效果图:
 
-![卡片布局.gif](https://upload-images.jianshu.io/upload_images/1990028-0bd26db85d3eaa7d.gif?imageMogr2/auto-orient/strip)
+![卡片布局.gif](UICollectionViewFlowLayout之常用布局/4.gif)
 
 >项目地址：[知识集结点](https://dev.tencent.com/u/Ranzhuang/p/yigeSwiftxiangmu)

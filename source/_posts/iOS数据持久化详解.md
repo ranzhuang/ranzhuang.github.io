@@ -31,9 +31,9 @@ tags: Object-C
 
 右击文件目录 ---> 选择"New File..." --->选择"Property List" ---> 输入plist文件名并在窗口中点击Create创建。在创建好的plist文件中选择Root类型并添加测试数据，如图所示:
 
-![创建.png](https://upload-images.jianshu.io/upload_images/1990028-cbaf9156304b9113.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![创建.png](iOS数据持久化详解/1.png)
 
-![添加测试数据.png](https://upload-images.jianshu.io/upload_images/1990028-45603fc5c17325ee.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![添加测试数据.png](iOS数据持久化详解/2.png)
 
 1.2 获取plist文件数据
 
@@ -72,7 +72,7 @@ tags: Object-C
 
 右击文件目录 ---> 选择"New File..." --->选择"Objective-C File" --->选择File Type方式、类并且输入名称
 
-![创建分类2.png](https://upload-images.jianshu.io/upload_images/1990028-cf8da32490580f91.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![创建分类2.png](iOS数据持久化详解/3.png)
 
 2.2 保存、获取数据示例:
 
@@ -355,11 +355,11 @@ NSManagedObjectContext：托管对象上下文，在上下文中包含多个托�
 
 右击文件夹 ---> 选择 "New File..." ---> 选择"Data Model" ---> 输入文件名称并创建。创建后缀名为.xcdatamodeld的模型文件后，添加实体，并在实体中添加属性及类别
 
-![创建Core Data文件.png](https://upload-images.jianshu.io/upload_images/1990028-497b3ca0b155589b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![创建Core Data文件.png](iOS数据持久化详解/4.png)
 
 点击"Editor"菜单项 ---> 选择"Create NSManagedObject Subclass..."项--->选择创建的Data Model--->选择创建的实体类--->选择需要放置的文件目录--->点击"Create"创建托管对象类。
 
-![构建实体类.png](https://upload-images.jianshu.io/upload_images/1990028-64202a0d1af5b80e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![构建实体类.png](iOS数据持久化详解/5.png)
 
 
 5.2 单利实例化CoreDataManager
