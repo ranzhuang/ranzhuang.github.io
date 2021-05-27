@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="z">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    
+    <title>基础控制器的构建与设备方向的控制 | 爱听音乐的狗</title>
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="士不可以不弘毅，任重而道远">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="基础控制器的构建与设备方向的控制 | 爱听音乐的狗">
+    <meta name="twitter:description" content="士不可以不弘毅，任重而道远">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="基础控制器的构建与设备方向的控制 | 爱听音乐的狗">
+    <meta property="og:description" content="士不可以不弘毅，任重而道远">
+
+    
+    <meta name="author" content="汪汪神">
+    
+    <link rel="stylesheet" href="/css/vno.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+
+    
+    <link rel="icon" href="/images/avatar-small.png">
+    
+
+    <meta name="generator" content="hexo"/>
+    
+
+    <link rel="canonical" href="http://yoursite.com/2019/05/27/基础控制器的构建与设备方向的控制/"/>
+
+                 
+</head>
+
+<body class="home-template no-js">
+    <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+<header class="panel-cover panel-cover--collapsed" style="background-image: url(/images/background-cover.jpg)">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/" title="前往 爱听音乐的狗 的主页"><img src="/images/avatar.jpg" width="80" alt="爱听音乐的狗 logo" class="panel-cover__logo logo"></a>
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage for 爱听音乐的狗">爱听音乐的狗</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">有趣，古怪，奇异</span>
+        
+        <hr class="panel-cover__divider">
+        <p class="panel-cover__description">士不可以不弘毅，任重而道远</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary">
+
+        <div class="navigation-wrapper">
+          <div>
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+              <li class="navigation__item"><a href="/#blog" title="访问博客" class="blog-button">文字阁</a></li>
+            
+            </ul>
+          </nav>
+          </div>
+          <div>
+          <nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  <!-- Weibo-->
+  
+
+  <!-- Github -->
+  
+
+<!-- Stack Overflow -->
+        
+
+  <!-- Google Plus -->
+  
+
+<!-- Facebook -->
+
+  
+<!-- Twitter -->
+
+  
+
+
+
+  </ul>
+</nav>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay cover-origin"></div>
+  </div> 
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single">
+
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2019-05-26T16:00:00.000Z" class="post-list__meta--date date">2019-05-27</time> &#8226; <span class="post-meta__tags tags">于 
+  <a class="tag-link" href="/tags/Swift/">Swift</a>
+ </span>
+      <span class="page-pv">
+       阅读 <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
+      </span> 
+   
+    </div>
+    <h1 class="post-title">基础控制器的构建与设备方向的控制</h1>
+  </header>
+
+  <section class="post">
+    <h3 id="涉及知识点"><a href="#涉及知识点" class="headerlink" title="涉及知识点"></a>涉及知识点</h3><p>1、基于UIViewController构建基础控制器<br>2、基于UINavigationController构建导航控制器并添加Pop手势<br>3、基于UITabBarController构建主控制器<br>4、指定控制器可进行设备方向翻转</p>
+<h3 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h3><p>1、基于UIViewController构建基础控制器</p>
+<p>1.1 自定义导航栏</p>
+<p>在定制导航栏中所包含的内容时，主要是考虑绝大部分控制器所需要的控件，所以通常包含左返回按钮，标题视图以及标题，右侧设置按钮。部分iPhone手机带有刘海，statusBar的高度也不再是以前的20，所以更好做法是将导航视图分为statusBar高度的视图和其他视图，一起构成导航视图。如下所示</p>
+<pre><code>// MARK: set &amp; get 方法
+
+
+/// navigationView
+lazy var navigationView: UIView = {
+    let navigationView = UIView.init(frame: CGRect.zero)
+    navigationView.backgroundColor = UIColor.white
+    navigationView.addSubview(self.statusView)
+    navigationView.addSubview(self.moreNaviView)
+    navigationView.addSubview(self.lineView)
+    return navigationView
+}()
+/// 去除状态栏剩余view
+lazy var moreNaviView: UIView = {
+    let moreNaviView = UIView.init(frame: CGRect.zero)
+    view.backgroundColor = UIColor.white
+    moreNaviView.addSubview(self.titleView)
+    return moreNaviView
+}()
+/// 状态栏高度的视图
+lazy var statusView: UIView = {
+    let statusView = UIView.init(frame: CGRect.zero)
+    statusView.backgroundColor = UIColor.white
+    return statusView
+}()
+
+lazy var backButton: UIButton = {
+    let button = UIButton.init(frame: CGRect.init(x: 10, y: 0, width: 100, height: 44))
+    button.setTitle(&quot;返回&quot;, for: .normal)
+    button.setTitleColor(UIColor.black, for: .normal)
+    button.setTitleColor(UIColor.lightGray, for: .highlighted)
+    button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+    button.setImage(UIImage.init(named: &quot;黑色向左箭头&quot;), for: .normal)
+    button.setImage(UIImage.init(named: &quot;向左箭头&quot;), for: .highlighted);
+    button.titleLabel?.adjustsFontSizeToFitWidth = true
+    button.contentHorizontalAlignment = .left
+    button.titleEdgeInsets = UIEdgeInsets.init(top: 0, left: 5, bottom: 0, right: 0)
+    button.addTarget(self, action: #selector(backButtonDidClicked(button:)), for: .touchUpInside)
+    return button
+}()
+
+lazy var rightButton: UIButton = {
+    let button = UIButton.init(type: UIButton.ButtonType.custom)
+    button.setTitleColor(UIColor.black, for: UIControl.State.normal)
+    button.setTitleColor(UIColor.lightGray, for: .highlighted)
+    button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+    button.titleLabel?.adjustsFontSizeToFitWidth = true
+    button.titleLabel?.contentMode = UIView.ContentMode.center
+    button.addTarget(self, action: #selector(rightButtonDidClicked(button:)), for: .touchUpInside)
+    return button
+}()
+
+lazy var lineView: UIView = {
+    let lineView = UIView.init(frame: CGRect.zero)
+    lineView.backgroundColor = UIColor.gray
+    return lineView
+}()
+
+// MARK: 私有 set &amp; get 方法
+
+private lazy var titleView: UIView = {
+    let titleView = UIView.init(frame: CGRect.zero)
+    titleView.addSubview(self.titleLabel)
+    return titleView
+}()
+
+private lazy var titleLabel :UILabel =  {
+    let label = UILabel.init(frame: CGRect.zero)
+    label.font = UIFont.systemFont(ofSize: 16)
+    label.adjustsFontSizeToFitWidth = true
+    label.textAlignment = .center
+    return label
+}()
+</code></pre><p>1.2 添加导航栏视图并布局</p>
+<p>可在控制器中重写viewDidLoad()方法，进行视图的添加，需要注意的是自定义导航栏视图部分控件的frame不能写死，需要实现自动布局，否则在某些指定的控制器中实现设备方向翻转时导航视图会出现frame问题，使用的布局框架是SnapKit，布局如下所示</p>
+<pre><code>//MARK: 重写的方法和属性
+override func viewDidLoad() {
+    super.viewDidLoad()
+    // 添加基本视图
+    self.configBaseUI()
+
+}
+
+// MARK: 本类公共方法
+/// 设置UI
+private func configBaseUI() {
+    self.view.backgroundColor = UIColor.colorWithHex(rgb: 0xb2b2b2)
+    self.view.addSubview((self.navigationView))
+    self.view.bringSubviewToFront(self.navigationView)
+    self.makeConstraint()
+}
+
+/// 约束
+private func makeConstraint() {
+    self.navigationView.snp.makeConstraints { (make) in
+        make.left.equalToSuperview()
+        make.right.equalToSuperview()
+        make.top.equalToSuperview()
+        make.height.equalTo(JJ_NAVIGATION_HEIGHT)
+    }
+    self.statusView.snp.makeConstraints { (make) in
+        make.left.equalToSuperview()
+        make.right.equalToSuperview()
+        make.top.equalToSuperview()
+        make.height.equalTo(JJ_STATUS_HEIGHT)
+    }
+    self.moreNaviView.snp.makeConstraints { (make) in
+        make.left.equalToSuperview()
+        make.right.equalToSuperview()
+        make.top.equalTo(JJ_STATUS_HEIGHT)
+        make.height.equalTo(JJ_NAVIGATION_MOREHEIGHT)
+    }
+    self.lineView.snp.makeConstraints { (make) in
+        make.left.equalToSuperview()
+        make.right.equalToSuperview()
+        make.top.equalTo(JJ_NAVIGATION_HEIGHT - 1)
+        make.height.equalTo(1)
+    }
+    self.titleView.snp.makeConstraints { (make) in
+        make.left.equalToSuperview().offset(100)
+        make.right.equalToSuperview().offset(-100)
+        make.top.equalToSuperview()
+        make.height.equalToSuperview()
+    }
+    self.titleLabel.snp.makeConstraints { (make) in
+        make.left.equalToSuperview()
+        make.right.equalToSuperview()
+        make.top.equalToSuperview()
+        make.height.equalToSuperview()
+    }
+}
+</code></pre><p>在做布局时使用到了JJ_NAVIGATION_HEIGHT、JJ_STATUS_HEIGHT、JJ_NAVIGATION_MOREHEIGHT等常量，主要作用是需要做屏幕适配（关于适配方面的问题，可以参考<a href="https://funnyhuang.cn/2018/07/04/%E9%80%82%E9%85%8D/" target="_blank" rel="noopener">iPhone X 屏幕适配从选择到 “放弃”</a>），涉及到的3个常量如下所示：</p>
+<pre><code>/// iphone x/xs/xsMax/xr 44, 其他20    iphonex/xs: 375.f, 812.f iphonexr/xsMax: 414.f, 896.f
+  let JJ_STATUS_HEIGHT = ((__CGSizeEqualToSize(CGSize.init(width: 375, height: 812), UIScreen.main.bounds.size) == true ||
+                   __CGSizeEqualToSize(CGSize.init(width: 812, height: 375),
+UIScreen.main.bounds.size) == true ||
+                   __CGSizeEqualToSize(CGSize.init(width: 414, height: 896),
+UIScreen.main.bounds.size) == true ||
+                   __CGSizeEqualToSize(CGSize.init(width: 896, height: 414),
+UIScreen.main.bounds.size) == true)
+                  ? 44 : 20)
+
+/// navigation除掉status的高度
+let JJ_NAVIGATION_MOREHEIGHT = (44)
+
+/// navigation高度
+let JJ_NAVIGATION_HEIGHT = (JJ_STATUS_HEIGHT +
+JJ_NAVIGATION_MOREHEIGHT)
+</code></pre><p>1.3  状态栏的控制</p>
+<p>有时需要对状态栏显示的状态以及是否隐藏状态栏进行控制，但是对应的”preferredStatusBarStyle”与”prefersStatusBarHidden”属性只提供了get，而不能进行set，所以需要重写对应的属性，实现对状态栏的控制</p>
+<pre><code>// MARK: 属性
+
+/// 状态栏状态
+private var _statusBarStyle:UIStatusBarStyle?
+/// 状态栏状态
+var statusBarStyle: UIStatusBarStyle? {
+    get {
+        return _statusBarStyle
+    }
+    set {
+        _statusBarStyle = newValue
+        self.setNeedsStatusBarAppearanceUpdate()
+    }
+}
+/// 是否隐藏状态栏
+private var _statusBarHidden:Bool?
+/// 是否隐藏状态栏
+var statusBarHidden: Bool? {
+    get {
+        return _statusBarHidden
+    }
+    set {
+        _statusBarHidden = newValue;
+        self.setNeedsStatusBarAppearanceUpdate()
+    }
+}
+
+//MARK: 重写的方法和属性
+override var preferredStatusBarStyle: UIStatusBarStyle {
+    if self.statusBarStyle != nil {
+        return self.statusBarStyle!
+    }
+    return super.preferredStatusBarStyle
+}
+
+override var prefersStatusBarHidden: Bool {
+    if self.statusBarHidden != nil {
+        return self.statusBarHidden!
+    }
+    return super.prefersStatusBarHidden
+}
+</code></pre><p>1.4  方法调用</p>
+<p>在基础控制器中应当提供常用的方法，用于方便子控制器来进行调用，提高效率，比如说导航栏的基本设置、颜色、文字等，需要注意的是按钮点击的方法需要加上 @objc才能公开给Objective-C，如下所示</p>
+<pre><code>// MARK: 子类调用方法
+
+
+/// 导航栏基本设置
+func defaultNavigation() {
+    self.setNavigation(color: UIColor.white)
+    self.statusBarStyle = .default
+    self.setNavigation(titleColor: UIColor.black)
+}
+
+/// 设置导航栏背景色
+func setNavigation(color:UIColor) {
+    self.navigationView.backgroundColor = color
+    self.moreNaviView.backgroundColor = color
+    self.statusView.backgroundColor = color
+}
+/// 设置导航栏文字
+func setNavigation(title: String) {
+    self.setNavigation(title: title, titleColor: nil)
+}
+
+/// 设置导航栏文字颜色
+///
+/// - Parameter titleColor: titleColor description
+func setNavigation(titleColor:UIColor) {
+    self.setNavigation(title: nil, titleColor: titleColor)
+}
+/// 设置导航栏文字和文字颜色
+func setNavigation(title: String?, titleColor:UIColor?) {
+    self.titleLabel.text = title ?? &quot;&quot;
+    self.titleLabel.textColor = titleColor ?? UIColor.black
+}
+/// 设置导航栏文字和导航栏颜色
+func setNavigation(color:UIColor, title:String) {
+    self.setNavigation(color: color)
+    self .setNavigation(title: title)
+}
+/// 添加返回按钮
+func addBackButton() {
+    self.moreNaviView.addSubview(self.backButton)
+}
+
+/// 添加右侧按钮
+///
+/// - Parameters:
+///   - title: title description
+///   - titleColor: titleColor description
+///   - imageName: imageName description
+func addRightButton(title:String?, titleColor:UIColor?, imageName:String? ) {
+    self.rightButton.setTitle(title, for: UIControl.State.normal)
+    self.rightButton.setTitleColor(titleColor, for: UIControl.State.normal)
+    self.rightButton.setImage(UIImage.init(named: imageName ?? &quot;&quot;), for: UIControl.State.normal)
+    self.moreNaviView.addSubview(self.rightButton)
+    self.rightButton.snp.makeConstraints { (make) in
+        make.width.equalTo(JJ_NAVIGATION_MOREHEIGHT)
+        make.height.equalTo(JJ_NAVIGATION_MOREHEIGHT)
+        make.top.equalToSuperview()
+        make.right.equalToSuperview().offset(-10)
+    }
+}
+
+/// 添加右侧按钮
+///
+/// - Parameter imageName: imageName description
+func addRightButton(imageName:String) {
+    self.addRightButton(title: nil, titleColor: nil, imageName: imageName)
+}
+
+/// 添加右侧按钮
+///
+/// - Parameters:
+///   - title: title description
+///   - titleColor: titleColor description
+func addRightButton(title:String, titleColor:UIColor) {
+    self.addRightButton(title: title, titleColor: titleColor, imageName: nil)
+}
+
+/// 是否显示导航栏底部灰线
+///
+/// - Parameter show: show description
+func showNavBottomLine(show:Bool) {
+    self.lineView.isHidden = !show
+}
+
+/// 是否显示导航栏
+///
+/// - Parameter bool: bool
+func showNavigationBar(bool: Bool) {
+    self.navigationView.isHidden = !bool
+}
+
+/// 返回按钮被点击,默认pop，需要时子类可重写 @objc修饰的方法子类也可重写
+@objc func backButtonDidClicked(button:UIButton) {
+    self.navigationController?.popViewController(animated: true)
+}
+
+/// 右侧按钮被点击 需要时子类可重写 @objc修饰的方法子类也可重写
+///
+/// - Parameter button: button description
+@objc func rightButtonDidClicked(button:UIButton) {
+
+}
+</code></pre><p>2、基于UINavigationController构建导航控制器并添加Pop手势</p>
+<p>创建控制器基于UINavigationController，准守UINavigationControllerDelegate与 UIGestureRecognizerDelegate协议，实现协议下对应的方法，在对应方法中对interactivePopGestureRecognizer的isEnabled进行控制以及是否响应手势，如下所示</p>
+<pre><code>override func viewDidLoad() {
+    super.viewDidLoad()
+    self.delegate = self
+    if self.responds(to: #selector(getter: interactivePopGestureRecognizer)) {
+        self.interactivePopGestureRecognizer?.delegate = self
+    }
+}
+
+//MARK: UINavigationControllerDelegate
+func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
+    // 在最底层的viewController是不能够响应pop手势的
+    if self.responds(to: #selector(getter: interactivePopGestureRecognizer)) {
+        if self.viewControllers.count == 1 {
+            self.interactivePopGestureRecognizer?.isEnabled = false
+        } else {
+            self.interactivePopGestureRecognizer?.isEnabled = true
+        }
+    }
+}
+//MARK: UIGestureRecognizerDelegate
+func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -&gt; Bool {
+    // 在最底层的viewController是不应该开始手势
+    if self.viewControllers.count &lt; 2 || self.visibleViewController == self.viewControllers[0] {
+        return false
+    }
+    return true
+}
+</code></pre><p>3、基于UITabBarController构建主控制器</p>
+<p>主要是实现对应的几个属性，对控制器进行基于JJNavigationViewController的包装，然后添加为子控制器，如下所示</p>
+<pre><code>override func viewDidLoad() {
+    super.viewDidLoad()
+    self.configUI()
+}
+// MARK: 私有方法
+
+private func configUI() {
+    //基于JJBaseViewController基础控制器构建4个控制器
+    self.addChildViewController(viewController: JJHomeMainViewController.init(), title: &quot;首页&quot;, image: &quot;信息前&quot;, selectImage: &quot;信息后&quot;)
+    self.addChildViewController(viewController: JJFindViewController.init(), title: &quot;发现&quot;, image: &quot;发现前&quot;, selectImage: &quot;发现后&quot;)
+    self.addChildViewController(viewController: JJVideoViewController.init(), title: &quot;美图&quot;, image: &quot;信息前&quot;, selectImage: &quot;信息后&quot;)
+    self.addChildViewController(viewController: JJMeViewController.init(), title: &quot;我的&quot;, image: &quot;发现前&quot;, selectImage: &quot;发现后&quot;)
+}
+
+/// 添加自控制器
+///
+/// - Parameters:
+///   - viewController: viewController description
+///   - title: title description
+///   - image: image description
+///   - selectImage: selectImage description
+private func addChildViewController(viewController:UIViewController, title:NSString, image:NSString, selectImage:NSString){
+    // 设置文字和图片
+    viewController.tabBarItem.title = title as String
+    viewController.tabBarItem.image = UIImage.init(named: image as String)
+    viewController.tabBarItem.selectedImage = UIImage.init(named: selectImage as String)
+    // 设置文字个状态下的属性
+    let tabBar = viewController.tabBarItem!
+    tabBar.setTitleTextAttributes([NSAttributedString.Key.foregroundColor:UIColor.gray], for: .normal)
+    tabBar.setTitleTextAttributes([NSAttributedString.Key.foregroundColor:UIColor.colorWithHex(rgb: 0x16a5af, alpha: 1)], for: .selected)
+
+    // 包装一个当行控制器
+    let nav = JJNavigationViewController.init(rootViewController: viewController)
+    nav.setNavigationBarHidden(true, animated: false)
+    self.addChild(nav)
+}
+</code></pre><p>4、指定控制器可进行设备方向翻转</p>
+<p>4.1  修改General配置</p>
+<p><img src="/2019/05/27/基础控制器的构建与设备方向的控制/1.png" alt="修改配置.png"></p>
+<p>4.2  AppDelegate中添加属性、实现方法</p>
+<p>添加sAllowRotation属性用于标记，”    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -&gt; UIInterfaceOrientationMask<br>“方法中判断sAllowRotation的值，来改变UIInterfaceOrientationMask的值。默认情况下屏幕是不会自动旋转的</p>
+<pre><code>/// 是否允许屏幕旋转
+var isAllowRotation:Bool = false
+
+func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -&gt; UIInterfaceOrientationMask {
+    if self.isAllowRotation == true {
+        return UIInterfaceOrientationMask.allButUpsideDown
+    } else {
+        return UIInterfaceOrientationMask.portrait
+    }
+}
+</code></pre><p>4.3 指定控制器实现屏幕的旋转</p>
+<p>分别在对应控制器的viewDidAppear和viewDidDisappear方法中对AppDelegate的isAllowRotation属性进行修改。需要注意的是调用viewDidDisappear时，并且当前视图不是portrait，需要将设备的”orientation”属性修改为portrait，以便可旋转控制器不显示进入其他控制器时设备自动旋转为portrait</p>
+<pre><code>override func viewDidAppear(_ animated: Bool) {
+    self.allowRotation()
+}
+override func viewDidDisappear(_ animated: Bool) {
+    super.viewDidDisappear(animated)
+    self.notAllowRotation()
+}
+/// 设配可翻转
+private func allowRotation() {
+    //设备是否可翻转
+    let delegate = UIApplication.shared.delegate as? AppDelegate
+    delegate?.isAllowRotation = true
+}
+
+/// 设备不可翻转
+private func notAllowRotation() {
+    //如果屏幕不是portrait就修改为portrait
+    if UIDevice.current.orientation != .portrait {
+        let tempNumber:NSNumber = NSNumber.init(value: Int8(UIDeviceOrientation.portrait.rawValue))
+        UIDevice.current.setValue(tempNumber, forKey: &quot;orientation&quot;)
+    }
+    let delegate = UIApplication.shared.delegate as? AppDelegate
+    delegate?.isAllowRotation = false
+}
+</code></pre><blockquote>
+<p>项目地址：<a href="https://dev.tencent.com/u/Ranzhuang/p/yigeSwiftxiangmu" target="_blank" rel="noopener">知识集结点</a></p>
+</blockquote>
+
+  </section>
+
+</article>
+
+<section class="read-more">
+           
+    
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">最近的文章</span>
+                <h2 class="post-list__post-title post-title"><a href="/2020/01/30/UICollectionViewFlowLayout之常用布局/" title="UICollectionViewFlowLayout之常用布局">UICollectionViewFlowLayout之常用布局</a></h2>
+                <p class="excerpt">
+                
+                涉及布局方式1、流式布局2、线性布局3、圆形布局4、卡片布局
+具体布局实现1、流式布局
+1.1   外部可访问的属性
+创建布局类继承于UICollectionViewFlowLayout，在自定义布局类中提供一些常用的外部可访问属性，例如：是否垂直滚动、item的宽度和高度、列行间距等，方便进行布局
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2020-01-29T16:00:00.000Z" class="post-list__meta--date date">2020-01-30</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/Swift/">Swift</a>
+</span><a class="btn-border-small" href="/2020/01/30/UICollectionViewFlowLayout之常用布局/">继续阅读</a></div>
+                           
+            </div>
+        
+        
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">更早的文章</span>
+                <h2 class="post-list__post-title post-title"><a href="/2018/12/13/公众号开发环境的搭建与接入/" title="微信公众号的开发环境搭建与接入">微信公众号的开发环境搭建与接入</a></h2>
+                <p class="excerpt">
+                
+                开发环境的搭建1、进入Ngrok官网，下载客户端
+
+2、选择需要下载的版本并解压
+
+3、注册ngrok账号并登陆，在隧道管理页进行隧道的开通
+
+4、 填写隧道信息
+
+5、隧道连接
+在开通隧道之后会产生一个隧道id，可以在终端中根据隧道id进行连接，当终端出现在线时，代表连接成功，这时其他人就可以通过
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2018-12-12T16:00:00.000Z" class="post-list__meta--date date">2018-12-13</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/公众号开发/">公众号开发</a>
+</span><a class="btn-border-small" href="/2018/12/13/公众号开发环境的搭建与接入/">继续阅读</a></div>
+                       
+            </div>
+        
+     
+   
+   
+  
+</section>
+
+  
+
+            <footer class="footer">
+    <span class="footer__copyright">
+        &copy; 2021 汪汪神 - 本站点采用 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>
+       
+    </span>
+    <span class="footer__copyright">
+             - 基于 <a href="http://hexo.io">Hexo</a> 搭建，使用 <a href="https://github.com/monniya/hexo-theme-new-vno ">new-vno</a> 主题，由<a href="https://monniya.com ">@Monniya</a> 修改自 <a href="https://github.com/lenbo-ma/hexo-theme-vno" target="_blank">Vno</a>, 原创出自<a href="http://github.com/onevcat/vno" target="_blank">onevcat</a>
+         </span>
+       
+    
+    
+</footer>
+
+
+        </div>
+    </div>
+
+     
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-78918255-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+    
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?9cdad07c755fa23f6aced510c6760e87";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    
+</body>
+</html>

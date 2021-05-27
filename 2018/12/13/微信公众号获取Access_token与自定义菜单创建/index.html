@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="z">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    
+    <title>微信公众号获取Access_token与自定义菜单创建 | 爱听音乐的狗</title>
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="士不可以不弘毅，任重而道远">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="微信公众号获取Access_token与自定义菜单创建 | 爱听音乐的狗">
+    <meta name="twitter:description" content="士不可以不弘毅，任重而道远">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="微信公众号获取Access_token与自定义菜单创建 | 爱听音乐的狗">
+    <meta property="og:description" content="士不可以不弘毅，任重而道远">
+
+    
+    <meta name="author" content="汪汪神">
+    
+    <link rel="stylesheet" href="/css/vno.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+
+    
+    <link rel="icon" href="/images/avatar-small.png">
+    
+
+    <meta name="generator" content="hexo"/>
+    
+
+    <link rel="canonical" href="http://yoursite.com/2018/12/13/微信公众号获取Access_token与自定义菜单创建/"/>
+
+                 
+</head>
+
+<body class="home-template no-js">
+    <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+<header class="panel-cover panel-cover--collapsed" style="background-image: url(/images/background-cover.jpg)">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/" title="前往 爱听音乐的狗 的主页"><img src="/images/avatar.jpg" width="80" alt="爱听音乐的狗 logo" class="panel-cover__logo logo"></a>
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage for 爱听音乐的狗">爱听音乐的狗</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">有趣，古怪，奇异</span>
+        
+        <hr class="panel-cover__divider">
+        <p class="panel-cover__description">士不可以不弘毅，任重而道远</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary">
+
+        <div class="navigation-wrapper">
+          <div>
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+              <li class="navigation__item"><a href="/#blog" title="访问博客" class="blog-button">文字阁</a></li>
+            
+            </ul>
+          </nav>
+          </div>
+          <div>
+          <nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  <!-- Weibo-->
+  
+
+  <!-- Github -->
+  
+
+<!-- Stack Overflow -->
+        
+
+  <!-- Google Plus -->
+  
+
+<!-- Facebook -->
+
+  
+<!-- Twitter -->
+
+  
+
+
+
+  </ul>
+</nav>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay cover-origin"></div>
+  </div> 
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single">
+
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2018-12-12T16:00:00.000Z" class="post-list__meta--date date">2018-12-13</time> &#8226; <span class="post-meta__tags tags">于 
+  <a class="tag-link" href="/tags/公众号开发/">公众号开发</a>
+ </span>
+      <span class="page-pv">
+       阅读 <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
+      </span> 
+   
+    </div>
+    <h1 class="post-title">微信公众号获取Access_token与自定义菜单创建</h1>
+  </header>
+
+  <section class="post">
+    <h3 id="获取access-token"><a href="#获取access-token" class="headerlink" title="获取access_token"></a>获取access_token</h3><p><a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&amp;id=mp1421140183" target="_blank" rel="noopener">获取access_token微信公众号官方文档</a></p>
+<p>1、access_token简单说明</p>
+<p>access_token是公众号的全局唯一接口调用凭据，公众号调用各接口时都需使用access_token，获取到access_token之后应将值进行保存，而不是每次都调用接口进行获取；服务器会返回expire_in（有效时间，单位秒），当expire_in过期之后再调用接口刷新access_token的值。</p>
+<p>在调用接口获取access_token，需要参数AppID与AppSecret，AppID和AppSecret可在“微信公众平台-开发-基本配置”页中获得（需要已经成为开发者，且帐号没有异常状态）</p>
+<p>接口调用请求说明:</p>
+<pre><code>https请求方式: GET
+/**
+*  grant_type     获取access_token填写client_credential
+*  appid    第三方用户唯一凭证
+*  secret    第三方用户唯一凭证密钥，即appsecret
+*/
+https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&amp;appid=APPID&amp;secret=APPSECRET
+</code></pre><p>2、获取access_token 示例</p>
+<p>在类WxService中，将appid、appsecret以及获取access_token的URL设置为静态常量；提供一个私有类方法用于调用微信接口获取access_token以及expires_in，并将值进行保存；再提供一个公共类方法，用于获取保存的值，如果保存的值为空或者时间已过期，就调用所提供的私有类方法获取值。</p>
+<p>Java示例代码</p>
+<pre><code>//获取ACCESS_TOKEN的URL
+private static final String ACCESS_TOKEN_URL = &quot;https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&amp;appid=APPID&amp;secret=APPSECRET&quot;;
+//appID
+private static final String APPID = &quot;wx503297a5bc732744&quot;;
+//appsecret
+private static final String APPSECRET = &quot;ab7c6be47ffe47ef4b44d13502afc60a&quot;;
+</code></pre><p>示例方法</p>
+<pre><code>/**
+ * 获取AccessToken
+ */
+private static void getCurrentAccessToken() {
+    String url = ACCESS_TOKEN_URL.replace(&quot;APPID&quot;, APPID).replace(&quot;APPSECRET&quot;,APPSECRET);
+    try {
+        //调用GET方法获取数据
+        String jsonStr = NetManagerUtil.net(url,null,&quot;GET&quot;);
+        //将json字符串转为对象
+        JSONObject jsonObject = JSON.parseObject(jsonStr);
+        AccessToken accessToken = new AccessToken(jsonObject.getString(&quot;access_token&quot;), jsonObject.getString(&quot;expires_in&quot;));
+        cuttentAccessToken = accessToken;
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+}
+
+public static String getAccessToken() {
+    //如果token不存在或者token过期就去获取token
+    if (cuttentAccessToken == null || cuttentAccessToken.isExpires()) {
+        getCurrentAccessToken();
+    }
+    return cuttentAccessToken.getToken();
+}
+</code></pre><p>在”getCurrentAccessToken”方法中用到了”NetManagerUtil”类中的”net”方法进行网络请求<br>“JSONObject”需要导入”fastjson”的jar包<br>AccessToken是新建的pojo类用于存放access_token与过期时间<br>“cuttentAccessToken”是类型为”AccessToken”的静态私有变量</p>
+<p>(1)  编写”NetManagerUtil”类中的”net”方法进行网络请求</p>
+<p>“NetManagerUtil”类中静态常量</p>
+<pre><code>public static final String DEF_CHATSET = &quot;UTF-8&quot;;
+public static final int DEF_CONN_TIMEOUT = 30000;
+public static final int DEF_READ_TIMEOUT = 30000;
+</code></pre><p>网络请求方法</p>
+<pre><code>/**
+ *
+ * @param strUrl 请求地址
+ * @param params 请求参数
+ * @param method 请求方法
+ * @return  网络请求字符串
+ * @throws Exception
+ */
+public static String net(String strUrl, Map params,String method) throws Exception {
+    HttpURLConnection conn = null;
+    BufferedReader reader = null;
+    String rs = null;
+    try {
+        StringBuffer sb = new StringBuffer();
+        //GET方法链接设置
+        if(method==null || method.equals(&quot;GET&quot;)){
+            if (params!= null) {
+                strUrl = strUrl+&quot;?&quot;+urlencode(params);
+            }
+        }
+        URL url = new URL(strUrl);
+        //开连接
+        conn = (HttpURLConnection) url.openConnection();
+        //设置请求方式
+        if(method==null || method.equals(&quot;GET&quot;)){
+            conn.setRequestMethod(&quot;GET&quot;);
+        }else{
+            conn.setRequestMethod(&quot;POST&quot;);
+            conn.setDoOutput(true);
+        }
+        //是否缓存
+        conn.setUseCaches(false);
+        //过期时间
+        conn.setConnectTimeout(DEF_CONN_TIMEOUT);
+        conn.setReadTimeout(DEF_READ_TIMEOUT);
+        //是否重定向
+        conn.setInstanceFollowRedirects(false);
+        //连接
+        conn.connect();
+        //POST方法设置
+        if (params!= null &amp;&amp; method.equals(&quot;POST&quot;)) {
+            try {
+                //输出流
+                DataOutputStream out = new DataOutputStream(conn.getOutputStream());
+                out.writeBytes(urlencode(params));
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+        }
+        //读取输入流
+        InputStream is = conn.getInputStream();
+        reader = new BufferedReader(new InputStreamReader(is, DEF_CHATSET));
+        String strRead = null;
+        while ((strRead = reader.readLine()) != null) {
+            sb.append(strRead);
+        }
+        System.out.println(sb.toString());
+        rs = sb.toString();
+    } catch (IOException e) {
+        e.printStackTrace();
+    } finally {
+        if (reader != null) {
+            reader.close();
+        }
+        if (conn != null) {
+            conn.disconnect();
+        }
+    }
+    return rs;
+}
+
+//将map型转为请求参数型
+public static String urlencode(Map&lt;String,Object&gt;data) {
+    StringBuilder sb = new StringBuilder();
+    for (Map.Entry i : data.entrySet()) {
+        try {
+            sb.append(i.getKey()).append(&quot;=&quot;).append(URLEncoder.encode(i.getValue()+&quot;&quot;,&quot;UTF-8&quot;)).append(&quot;&amp;&quot;);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
+    return sb.toString();
+}
+</code></pre><p>(2)  在pom.xml中导入”fastjson”的jar包</p>
+<pre><code>&lt;dependency&gt;
+  &lt;groupId&gt;com.alibaba&lt;/groupId&gt;
+  &lt;artifactId&gt;fastjson&lt;/artifactId&gt;
+  &lt;version&gt;1.1.41&lt;/version&gt;
+  &lt;scope&gt;compile&lt;/scope&gt;
+&lt;/dependency&gt;
+</code></pre><p>(3)  新建名为 AccessToken 的pojo类，并添加变量以及构造方法以及判断token是否过期的方法</p>
+<pre><code>/**
+ * 成功的token
+ */
+private String token;
+/**
+ * 过期时间
+ */
+private String expiresTimeout;
+
+public String getToken() {
+    return token;
+}
+
+public void setToken(String token) {
+    this.token = token;
+}
+
+public String getExpiresTimeout() {
+    return expiresTimeout;
+}
+
+public void setExpiresTimeout(String expiresTimeout) {
+    this.expiresTimeout = expiresTimeout;
+}
+
+/**
+ * 构造方法
+ * @param token     token
+ * @param expiresIn 获取到的时间
+ */
+public AccessToken(String token, String expiresIn) {
+    this.token = token;
+    this.expiresTimeout = System.currentTimeMillis() + Integer.parseInt(expiresIn) * 1000 +&quot;&quot;;
+}
+
+/**
+ * 是否过期
+ * @return
+ */
+public boolean isExpires() {
+    return System.currentTimeMillis() &gt; Long.parseLong(this.expiresTimeout);
+}
+</code></pre><p>(4)  在WxService类中添加静态私有变量</p>
+<pre><code>private static AccessToken cuttentAccessToken;
+</code></pre><p>3 、获取access_token测试</p>
+<p>新建名为WxTest的测试类，编写获取access_token的测试方法进行测试</p>
+<pre><code>/**
+ * 获取token
+ */
+@Test
+public void getToken() {
+    System.out.println(WxService.getAccessToken());
+    System.out.println(WxService.getAccessToken());
+}
+</code></pre><h3 id="自定义菜单的创建"><a href="#自定义菜单的创建" class="headerlink" title="自定义菜单的创建"></a>自定义菜单的创建</h3><p><a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&amp;id=mp1421141013" target="_blank" rel="noopener">自定义菜单创建微信公众号官方文档</a></p>
+<p>1、自定义菜单简单说明</p>
+<p>自定义菜单最多包括3个一级菜单，每个一级菜单最多包含5个二级菜单;一级菜单最多4个汉字，二级菜单最多7个汉字;测试时可以尝试取消关注公众账号后再次关注，则可以看到创建后的效果</p>
+<p>自定义菜单的按钮类型有很多，比如click、view、scancode_push、scancode_waitmsg等；菜单的创建以click、view两种进行示例，其他按钮方式所传入的json数据格式参考<a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&amp;id=mp1421141013" target="_blank" rel="noopener">自定义菜单创建微信公众号官方文档</a></p>
+<p>接口调用请求说明：</p>
+<pre><code>http请求方式：POST（请使用https协议）
+[https://api.weixin.qq.com/cgi-bin/menu/create?access_token=ACCESS_TOKEN](https://api.weixin.qq.com/cgi-bin/menu/create?access_token=ACCESS_TOKEN)
+</code></pre><p>2、json字符串所对应的对象封装</p>
+<p>click和view的请求示例:</p>
+<pre><code>{
+&quot;button&quot;:[
+{    
+     &quot;type&quot;:&quot;click&quot;,
+     &quot;name&quot;:&quot;今日歌曲&quot;,
+     &quot;key&quot;:&quot;V1001_TODAY_MUSIC&quot;
+ },
+ {
+      &quot;name&quot;:&quot;菜单&quot;,
+      &quot;sub_button&quot;:[
+      {    
+          &quot;type&quot;:&quot;view&quot;,
+          &quot;name&quot;:&quot;搜索&quot;,
+          &quot;url&quot;:&quot;http://www.soso.com/&quot;
+       },
+       {
+            &quot;type&quot;:&quot;miniprogram&quot;,
+            &quot;name&quot;:&quot;wxa&quot;,
+            &quot;url&quot;:&quot;http://mp.weixin.qq.com&quot;,
+            &quot;appid&quot;:&quot;wx286b93c14bbf93aa&quot;,
+            &quot;pagepath&quot;:&quot;pages/lunar/index&quot;
+        },
+       {
+          &quot;type&quot;:&quot;click&quot;,
+          &quot;name&quot;:&quot;赞一下我们&quot;,
+          &quot;key&quot;:&quot;V1001_GOOD&quot;
+       }]
+  }]
+}
+</code></pre><p>通过这段示例可以看出创建按钮需传入一段json字符串，而且一个button键对应按钮所形成的数组（一级菜单），在按钮数组中还存在sub_button键所对应的子按钮数组（二级菜单）；所以最外层可以创建为WxButton类，在类中只有一个属性，属性名为button，类型为List。观察发现每个按钮都有name字段，所以创建一个BaseButton抽象类，再类中只提供一个属性，属性名为name，类型为String。每个不同类型的按钮都继承自BaseButton类去构建不同类型的pojo类；如果菜单中包含二级菜单，就创建类继承自BaseButton并提供一个名为sub_button的List<basebutton>类型的属性，来代表一级菜单并包含子菜单这种情形。</basebutton></p>
+<p>创建抽象类”BaseButton”</p>
+<pre><code>/**
+ * 菜单名字
+ */
+private String name;
+
+public String getName() {
+    return name;
+}
+
+public void setName(String name) {
+    this.name = name;
+}
+
+public BaseButton(String name) {
+    this.name = name;
+}
+</code></pre><p>创建类型为Click的ClickButton类，并继承自BaseButton</p>
+<pre><code>/**
+ * 菜单类型
+ */
+private String type = &quot;click&quot;;
+/**
+ * 唯一键
+ */
+private String key;
+
+public String getType() {
+    return type;
+}
+
+public void setType(String type) {
+    this.type = type;
+}
+
+public String getKey() {
+    return key;
+}
+
+public void setKey(String key) {
+    this.key = key;
+}
+
+public ClickButton(String name, String key) {
+    super(name);
+    this.key = key;
+}
+</code></pre><p>创建按钮类型为View的ViewButton类，并继承自BaseButton</p>
+<pre><code>/**
+ * 菜单类型
+ */
+private String type = &quot;view&quot;;
+/**
+ * 跳转地址
+ */
+private String url;
+
+public String getType() {
+    return type;
+}
+
+public void setType(String type) {
+    this.type = type;
+}
+
+public String getUrl() {
+    return url;
+}
+
+public void setUrl(String url) {
+    this.url = url;
+}
+
+public ViewButton(String name, String url) {
+    super(name);
+    this.url = url;
+}
+</code></pre><p>创建有子菜单的菜单，类名为SubButton，继承自BaseButton</p>
+<pre><code>private List&lt;BaseButton&gt; sub_button = new ArrayList&lt;&gt;();
+
+public List&lt;BaseButton&gt; getSub_button() {
+    return sub_button;
+}
+
+public void setSub_button(List&lt;BaseButton&gt; sub_button) {
+    this.sub_button = sub_button;
+}
+
+public SubButton(String name) {
+    super(name);
+}
+</code></pre><p>创建名为WxButton的类用于生成最终json字符串的类</p>
+<pre><code>private List&lt;BaseButton&gt; button = new ArrayList&lt;&gt;();
+
+public List&lt;BaseButton&gt; getButton() {
+    return button;
+}
+
+public void setButton(List&lt;BaseButton&gt; button) {
+    this.button = button;
+}
+</code></pre><p>3、利用封装的pojo创建自定义菜单</p>
+<p>常见名为”CreatButtonUtil”的类，在main方法中调用creatWxButton私有类方法进行菜单的创建</p>
+<p>(1) 将所需要用到的文字定义为静态常量</p>
+<pre><code>private static final String CREAT_MENU_URL = &quot;https://api.weixin.qq.com/cgi-bin/menu/create?access_token=ACCESS_TOKEN&quot;;
+
+private static final String ONE_MENU_TITLE = &quot;查找路线&quot;;
+public static final String ONE_MENU_TITLEKEY = &quot;查找路线KEY&quot;;
+
+private static final String TWO_MENU_TITLE = &quot;产品服务&quot;;
+private static final String TWO_MENU_SUBTITLE_ONE = &quot;服务范围&quot;;
+private static final String TWO_MENU_SUBTITLE_ONEURL = &quot;http://www.epochyoosure.com/fangan/&quot;;
+private static final String TWO_MENU_SUBOTITLE_TWO = &quot;服务项目&quot;;
+private static final String TWO_MENU_SUBTITLE_TWOURL = &quot;http://www.epochyoosure.com/a/youxuechanpin/&quot;;
+private static final String TWO_MENU_SUBTITLE_THREE = &quot;新闻资讯&quot;;
+private static final String TWO_MENU_SUBTITLE_THREEURL = &quot;http://www.epochyoosure.com/zixun/&quot;;
+
+private static final String THREE_MENU_TITLE = &quot;艾派格&quot;;
+private static final String THREE_SUBTITLE_ONE = &quot;私人订制&quot;;
+private static final String THREE_SUBTITLE_ONEKEY = &quot;私人订制KEY&quot;;
+private static final String THREE_SUBTITLE_TWO = &quot;关于我们&quot;;
+private static final String THREE_MENU_SUBTITLE_THREEURL = &quot;http://www.epochyoosure.com/index.html&quot;;
+</code></pre><p>(2)  创建”creatWxButton”私有类方法，在方法中创建菜单对象，并将对象转为json字符串， 调用”NetManagerUtil”所提供的post方法请求网络，传入所需要的参数，创建菜单</p>
+<pre><code>private static void creatWxButton() {
+    //第一个菜单
+    ClickButton oneButton = new ClickButton(ONE_MENU_TITLE,ONE_MENU_TITLEKEY);
+    //第二个菜单
+    SubButton twoButton = new SubButton(TWO_MENU_TITLE);
+    //第二个菜单的子菜单
+    ViewButton oneSubButton = new ViewButton(TWO_MENU_SUBTITLE_ONE,TWO_MENU_SUBTITLE_ONEURL);
+    ViewButton twoSubButton = new ViewButton(TWO_MENU_SUBOTITLE_TWO,TWO_MENU_SUBTITLE_TWOURL);
+    ViewButton threeSubButton = new ViewButton(TWO_MENU_SUBTITLE_THREE,TWO_MENU_SUBTITLE_THREEURL);
+    twoButton.getSub_button().add(threeSubButton);
+    twoButton.getSub_button().add(twoSubButton);
+    twoButton.getSub_button().add(oneSubButton);
+    //第三个菜单
+    SubButton threeButton = new SubButton(THREE_MENU_TITLE);
+    //第三个菜单的子菜单
+    ClickButton subButtonOne = new ClickButton(THREE_SUBTITLE_ONE,THREE_SUBTITLE_ONEKEY);
+    ViewButton subButtonTwo = new ViewButton(THREE_SUBTITLE_TWO,THREE_MENU_SUBTITLE_THREEURL);
+    threeButton.getSub_button().add(subButtonOne);
+    threeButton.getSub_button().add(subButtonTwo);
+    //添加到button对象中
+    WxButton wxButton = new WxButton();
+    wxButton.getButton().add(oneButton);
+    wxButton.getButton().add(twoButton);
+    wxButton.getButton().add(threeButton);
+    //转json
+    String jsonStr = JSONObject.toJSONString(wxButton);
+    //替换token
+    String url = CREAT_MENU_URL.replace(&quot;ACCESS_TOKEN&quot;, WxService.getAccessToken());
+    //调用网络请求
+    NetManagerUtil.post(url,jsonStr);
+}
+</code></pre><p>(3)  类”NetManagerUtil”类中添加post方法</p>
+<pre><code>/**
+ * pust 请求
+ * @param url  请求的url
+ * @param data 请求的data
+ * @return 返回json字符串
+ */
+public static String post(String url,String data){
+    try {
+        URL urlObj = new URL(url);
+        //开链接
+        URLConnection connection = urlObj.openConnection();
+        //要发送数据出去，需要设置为可发送数据状态
+        connection.setDoOutput(true);
+        //是否缓存
+        connection.setUseCaches(false);
+        //过期时间
+        connection.setConnectTimeout(DEF_CONN_TIMEOUT);
+        connection.setReadTimeout(DEF_READ_TIMEOUT);
+        //获取输出流
+        OutputStream outputStream = connection.getOutputStream();
+        //写出数据
+        if (data != null) {
+            outputStream.write(data.getBytes());
+        }
+        outputStream.close();
+        //获取输入流
+        InputStream is = connection.getInputStream();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is, DEF_CHATSET));
+        String strRead = null;
+        StringBuffer sb = new StringBuffer();
+
+        while ((strRead = reader.readLine()) != null) {
+            sb.append(strRead);
+        }
+        System.out.println(sb.toString());
+        return sb.toString();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return null;
+}
+</code></pre><p>(4)  在此类的main方法中调用”creatWxButton”方法</p>
+<pre><code>public static void main(String[] args) {
+    creatWxButton();
+}
+</code></pre><p>(5)  运行main方法</p>
+<p>控制台打印”{“errcode”:0,”errmsg”:”ok”}”，就创建成功</p>
+<blockquote>
+<p>提醒<br>在公众号中点击自定义菜单会收到自定义菜单事件，部分按钮类型需要对事件进行处理以对用户的操作进行响应，后续将持续更新消息事件的接收与回复</p>
+</blockquote>
+
+  </section>
+
+</article>
+
+<section class="read-more">
+           
+    
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">最近的文章</span>
+                <h2 class="post-list__post-title post-title"><a href="/2018/12/13/公众号开发环境的搭建与接入/" title="微信公众号的开发环境搭建与接入">微信公众号的开发环境搭建与接入</a></h2>
+                <p class="excerpt">
+                
+                开发环境的搭建1、进入Ngrok官网，下载客户端
+
+2、选择需要下载的版本并解压
+
+3、注册ngrok账号并登陆，在隧道管理页进行隧道的开通
+
+4、 填写隧道信息
+
+5、隧道连接
+在开通隧道之后会产生一个隧道id，可以在终端中根据隧道id进行连接，当终端出现在线时，代表连接成功，这时其他人就可以通过
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2018-12-12T16:00:00.000Z" class="post-list__meta--date date">2018-12-13</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/公众号开发/">公众号开发</a>
+</span><a class="btn-border-small" href="/2018/12/13/公众号开发环境的搭建与接入/">继续阅读</a></div>
+                           
+            </div>
+        
+        
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">更早的文章</span>
+                <h2 class="post-list__post-title post-title"><a href="/2018/10/17/maven创建web工程/" title="Maven创建Web工程以及SSM框架目录结构的搭建">Maven创建Web工程以及SSM框架目录结构的搭建</a></h2>
+                <p class="excerpt">
+                
+                创建Web工程1、选择”File”—&amp;gt;”New”—&amp;gt;”Project”，如图所示：
+
+2、在弹出的视图左侧选择”Maven”，右侧选择SDK，并勾选上”Create from archetype”选择框，选择”org.apache.maven.archetypes:maven-arche
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2018-10-16T16:00:00.000Z" class="post-list__meta--date date">2018-10-17</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/Java/">Java</a>
+</span><a class="btn-border-small" href="/2018/10/17/maven创建web工程/">继续阅读</a></div>
+                       
+            </div>
+        
+     
+   
+   
+  
+</section>
+
+  
+
+            <footer class="footer">
+    <span class="footer__copyright">
+        &copy; 2021 汪汪神 - 本站点采用 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>
+       
+    </span>
+    <span class="footer__copyright">
+             - 基于 <a href="http://hexo.io">Hexo</a> 搭建，使用 <a href="https://github.com/monniya/hexo-theme-new-vno ">new-vno</a> 主题，由<a href="https://monniya.com ">@Monniya</a> 修改自 <a href="https://github.com/lenbo-ma/hexo-theme-vno" target="_blank">Vno</a>, 原创出自<a href="http://github.com/onevcat/vno" target="_blank">onevcat</a>
+         </span>
+       
+    
+    
+</footer>
+
+
+        </div>
+    </div>
+
+     
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-78918255-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+    
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?9cdad07c755fa23f6aced510c6760e87";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    
+</body>
+</html>
